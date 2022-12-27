@@ -6,12 +6,13 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     public bool canAct;
+    private Interactable currentInteractable;
 
     private void Update()
     {
-        if (Input.GetButtonUp("Fire1") && canAct)
+        if (Input.GetButtonUp("Fire1") && currentInteractable != null && canAct)
         {
-            Debug.Log("Acted");
+            currentInteractable.Interact();
         }
     }
 
@@ -19,7 +20,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (collision.tag.Equals("Interactable"))
         {
-            canAct = true;
+            currentInteractable = collision.GetComponent<Interactable>();
         }
     }
 
@@ -27,7 +28,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (collision.tag.Equals("Interactable"))
         {
-            canAct = false;
+            currentInteractable = null;
         }
     }
 }
