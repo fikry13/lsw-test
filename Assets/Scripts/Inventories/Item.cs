@@ -6,6 +6,7 @@ public class Item: ScriptableObject
     public string id;
     public Sprite icon;
     public int price;
+    public ItemType type;
     public bool equipable;
     public bool consumable;
 
@@ -17,6 +18,13 @@ public class Item: ScriptableObject
         }
         Item otherItem = (Item) other;
 
-        return id == otherItem.id;
+        return id.Equals(otherItem.id);
     }
+}
+
+public enum ItemType
+{
+    HairStyles,
+    Clothes,
+    Accessories
 }

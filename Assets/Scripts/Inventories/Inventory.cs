@@ -1,31 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public ItemSlot[] items = new ItemSlot[10];
+    public List<ItemSlot> items = new List<ItemSlot>();
+
+    public Action<Item, int> onItemAdd;
+
+    public Action<Item, int> onItemSubtract;
 
     public bool AddItem(Item item, int amount)
     {
         if (ItemExist(item))
         {
-            GetItemSlot(item).amount += amount;
+            var itemSlot = GetItemSlot(item);
+            itemSlot.amount += amount;
+
+            if(onItemAdd!= null)
+            {
+                onItemAdd.Invoke(item, itemSlot.amount);
+            }
         }
         else
         {
-            if (!IsSlotAvailable())
-            {
-                return false;
-            }
-
-            int index = GetAvailableSlot();
-
-            items[index] = new ItemSlot
+            items.Add(new ItemSlot
             {
                 item = item,
                 amount = amount
-            };
+            });
+
+            if (onItemAdd != null)
+            {
+                onItemAdd.Invoke(item, amount);
+            }
         }
 
         return true;
@@ -39,7 +48,12 @@ public class Inventory : MonoBehaviour
 
             if(itemSlot.amount <= 0)
             {
-                items[GetItemIndex(item)] = null;
+                items.Remove(itemSlot);
+            }
+
+            if (onItemSubtract != null)
+            {
+                onItemSubtract.Invoke(item, itemSlot.amount);
             }
 
             return true;
@@ -57,42 +71,11 @@ public class Inventory : MonoBehaviour
 
     public ItemSlot GetItemSlot(Item item)
     {
-        foreach (var slot in items)
+        foreach (var itemSlot in items)
         {
-            if (slot.item != null && slot.item.Equals(item))
-            {
-                return slot;
-            }
+            if (itemSlot.item.Equals(item)) { return itemSlot; }
         }
         return null;
-    }
-
-    public int GetItemIndex(Item item)
-    {
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (items[i].item != null && items[i].item.Equals(item))
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public int GetAvailableSlot()
-    {
-        for(int i = 0; i < items.Length; i++)
-        {
-            if (items[i] == null || items[i].item == null)
-            return i;
-        }
-
-        return -1;
-    }
-
-    public bool IsSlotAvailable()
-    {
-        return GetAvailableSlot() != -1;
     }
 }
 

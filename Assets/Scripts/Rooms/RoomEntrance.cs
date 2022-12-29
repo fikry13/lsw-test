@@ -34,16 +34,19 @@ public class RoomEntrance : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!_justArrived)
+        if (collision.tag.Equals("Player") && !_justArrived)
         {
-            //TODO: Move to entrance
             StartCoroutine(connectedEntrance.Teleport(collision.gameObject));
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _justArrived = false;
+
+        if (collision.tag.Equals("Player"))
+        {
+            _justArrived = false;
+        }
     }
 
     private void OnDrawGizmos()
