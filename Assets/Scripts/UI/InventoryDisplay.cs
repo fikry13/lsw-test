@@ -18,6 +18,20 @@ public class InventoryDisplay : MonoBehaviour
     [SerializeField]
     private InventoryItemDisplay inventoryItemDisplayPrefab;
 
+    private DisplayMode _displayMode;
+
+    public DisplayMode displayMode
+    {
+        get
+        {
+            return _displayMode;
+        }
+        set
+        {
+            SetMode(value);
+        }
+    }
+
     private void Start()
     {
         inventory.onItemAdd += (item, amount) =>
@@ -42,6 +56,15 @@ public class InventoryDisplay : MonoBehaviour
         };
 
         InitInventoryDisplay();
+    }
+
+    public void SetMode(DisplayMode displayMode)
+    {
+        _displayMode = displayMode;
+        foreach (var itemDisplay in itemDisplays)
+        {
+            itemDisplay.SetDisplayMode(displayMode);
+        }
     }
 
     public void ShowInventoryDisplay(bool show)
@@ -90,5 +113,12 @@ public class InventoryDisplay : MonoBehaviour
     public void RemoveInventorySubtractionListener(Action<Item, int> action)
     {
         inventory.onItemSubtract -= action;
+    }
+
+    public enum DisplayMode
+    {
+        Inventory,
+        Buy,
+        Sell
     }
 }

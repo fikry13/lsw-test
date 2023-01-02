@@ -5,6 +5,16 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField]
+    private Wallet _wallet;
+    
+    public Wallet wallet
+    {
+        get
+        {
+            return _wallet;
+        }
+    }
     public List<ItemSlot> items = new List<ItemSlot>();
 
     public Action<Item, int> onItemAdd;
@@ -76,6 +86,15 @@ public class Inventory : MonoBehaviour
             if (itemSlot.item.Equals(item)) { return itemSlot; }
         }
         return null;
+    }
+
+    public int GetItemAmount(Item item)
+    {
+        var itemSlot = GetItemSlot(item);
+
+        if(itemSlot == null) return 0;
+
+        return itemSlot.amount;
     }
 }
 

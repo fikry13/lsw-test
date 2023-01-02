@@ -26,35 +26,47 @@ public class InventoryItemDisplay : MonoBehaviour
     public InventoryDisplay inventoryDisplay;
     [HideInInspector]
     public Item item;
-
+        
     public void InitDisplay(Item item, int amount, InventoryDisplay inventoryDisplay)
     {
         this.inventoryDisplay = inventoryDisplay;
         UpdateDisplay(item, amount);
+        SetDisplayMode(inventoryDisplay.displayMode);
 
         this.inventoryDisplay.AddInventoryAdditionListener(HandleInventoryAdd);
 
         this.inventoryDisplay.AddInventorySubtractionListener(HandleInventorySubtract);
+    }
 
-        buyButton.onClick.AddListener(() =>
+    public void SetDisplayMode(InventoryDisplay.DisplayMode mode)
+    {
+        Debug.Log(mode);
+        switch (mode)
         {
-
-        });
-
-        sellButton.onClick.AddListener(() =>
-        {
-
-        });
-
-        useButton.onClick.AddListener(() =>
-        {
-
-        });
-
-        equipButton.onClick.AddListener(() =>
-        {
-
-        });
+            case InventoryDisplay.DisplayMode.Inventory:
+                buyButton.gameObject.SetActive(false);
+                sellButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(true);
+                useButton.gameObject.SetActive(false);
+                break;
+            case InventoryDisplay.DisplayMode.Buy:
+                buyButton.gameObject.SetActive(true);
+                sellButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(false);
+                useButton.gameObject.SetActive(false);
+                break;
+            case InventoryDisplay.DisplayMode.Sell:
+                buyButton.gameObject.SetActive(false);
+                sellButton.gameObject.SetActive(true);
+                equipButton.gameObject.SetActive(false);
+                useButton.gameObject.SetActive(false);
+                break;
+            default:
+                buyButton.gameObject.SetActive(false);
+                sellButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(true);
+                break;
+        }
     }
 
     public void UpdateDisplay(Item item, int amount)
@@ -63,6 +75,7 @@ public class InventoryItemDisplay : MonoBehaviour
         itemIcon.sprite = item.icon;
         itemName.text = item.name + " x" + amount;
         itemPrice.text = item.price + " G";
+        SetDisplayMode(inventoryDisplay.displayMode);
     }
 
     void HandleInventoryAdd(Item item, int amount)
@@ -89,7 +102,4 @@ public class InventoryItemDisplay : MonoBehaviour
         }
     }
 
-
-
-     
 }
