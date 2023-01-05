@@ -16,9 +16,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        var velocityX = Input.GetAxis("Horizontal") * speed;
-        var velocityY = Input.GetAxis("Vertical") * speed;
+        if (canMove)
+        {
+            var velocityX = Input.GetAxis("Horizontal") * speed;
+            var velocityY = Input.GetAxis("Vertical") * speed;
 
-        rigidbody2d.velocity = new Vector2(velocityX, velocityY);
+            rigidbody2d.velocity = new Vector2(velocityX, velocityY);
+        }
     }
 }

@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour
             return _wallet;
         }
     }
+    
     public List<ItemSlot> items = new List<ItemSlot>();
 
     public Action<Item, int> onItemAdd;

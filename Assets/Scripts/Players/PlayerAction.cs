@@ -10,7 +10,7 @@ public class PlayerAction : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonUp("Fire1") && currentInteractable != null && canAct)
+        if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null && canAct)
         {
             currentInteractable.Interact();
         }

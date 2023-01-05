@@ -9,20 +9,39 @@ public class Shop : MonoBehaviour
     [SerializeField]
     private Inventory inventory;
 
-    public ItemSlot BuyItem(Item item, int amount)
+    public static Shop Instance;
+
+    private void Awake()
     {
-        if(!shopInventory.ItemExist(item))
+        Instance = this;
+    }
+
+    public void BuyItem(Item item, int amount)
+    {
+        var totalPrice = amount * item.price;
+
+        if(!shopInventory.ItemExist(item) || !inventory.wallet.HasEnoughGold(totalPrice))
         {
-            return null;
+            return;
         }
-        else
-        {
-            return shopInventory.GetItemSlot(item);
-        }
+
+        inventory.wallet.Subtract(totalPrice);
+        shopInventory.wallet.Add(totalPrice);
+        shopInventory.SubtractItem(item, amount);
+        inventory.AddItem(item, amount);
     }
     
     public void SellItem(Item item, int amount)
     {
+        var totalPrice = amount * item.price;
+
+        if (!inventory.ItemExist(item))
+        {
+            return;
+        }
+
+        inventory.wallet.Add(totalPrice);
         shopInventory.AddItem(item, amount);
+        inventory.SubtractItem(item, amount);
     }
 }

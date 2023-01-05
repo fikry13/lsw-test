@@ -10,7 +10,5 @@ public class ItemDispenser : Interactable
     public override void Interact()
     {
         bool added = GameManager.Instance.playerController.inventory.AddItem(item, amount);
-
-        Debug.Log(added);
     }
 }

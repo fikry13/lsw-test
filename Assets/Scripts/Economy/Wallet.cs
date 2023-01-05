@@ -1,26 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wallet : MonoBehaviour
+[System.Serializable]
+public class Wallet
 {
-    public int Gold { get; private set; }
+    [SerializeField]
+    private int _gold;
+
+    public Action<int> onWalletValueChange;
+
+    public int Gold 
+    {
+        get { return _gold; }
+    }
 
     public bool HasEnoughGold(int amount)
     {
-        return Gold >= amount;
+        return _gold >= amount;
     }
 
     public void Add(int amount)
     {
-        Gold += amount;
+        _gold += amount;
+        onWalletValueChange?.Invoke(_gold);
     }
 
     public bool Subtract(int amount)
     {
         if(HasEnoughGold(amount))
         {
-            Gold -= amount;
+            _gold -= amount;
+            onWalletValueChange?.Invoke(_gold);
             return true;
         }
 

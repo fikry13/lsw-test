@@ -20,8 +20,22 @@ public class GameManager : MonoBehaviour
 
     public PlayerController playerController;
 
+    public InventoryDisplay inventoryDisplay;
+
     private void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
+    }
+
+    public void SetPlayerInput(bool canInput)
+    {
+        playerController.SetPlayerInput(canInput);
+    }
+
+    public void ToggleInventory()
+    {
+        bool toggle = !inventoryDisplay.gameObject.activeSelf;
+        inventoryDisplay.SetMode(InventoryDisplay.DisplayMode.Inventory);
+        inventoryDisplay.gameObject.SetActive(toggle);
     }
 }

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InventoryDisplay : MonoBehaviour
@@ -14,6 +15,9 @@ public class InventoryDisplay : MonoBehaviour
 
     [SerializeField]
     private RectTransform itemDisplayParent;
+
+    [SerializeField]
+    private TextMeshProUGUI goldText;
 
     [SerializeField]
     private InventoryItemDisplay inventoryItemDisplayPrefab;
@@ -44,7 +48,7 @@ public class InventoryDisplay : MonoBehaviour
                     exist = true;
                 }
             }
-            Debug.Log("Exist : " + exist + "n " + "test".Equals(item.id));
+
             if (!exist)
             {
                 AddNewItem(new ItemSlot
@@ -52,6 +56,14 @@ public class InventoryDisplay : MonoBehaviour
                     item = item,
                     amount = amount
                 });
+            }
+        };
+
+        inventory.wallet.onWalletValueChange += gold =>
+        {
+            if(goldText!= null)
+            {
+                goldText.text = $"{gold} G";
             }
         };
 

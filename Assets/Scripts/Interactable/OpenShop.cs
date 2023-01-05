@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenShop : Interactable
+public class OpenShop : Chatter
 {
     [SerializeField]
     private InventoryDisplay shopInventoryDisplay;
@@ -11,18 +12,18 @@ public class OpenShop : Interactable
 
     public override void Interact()
     {
-        base.Interact();
-
-        if (!inventoryDisplay.gameObject.activeSelf)
+        DisplayDialog(() =>
         {
-            inventoryDisplay.gameObject.SetActive(true);
-            inventoryDisplay.displayMode = InventoryDisplay.DisplayMode.Sell;
-        }
-        if (!shopInventoryDisplay.gameObject.activeSelf)
-        {
-            shopInventoryDisplay.gameObject.SetActive(true);
-            shopInventoryDisplay.displayMode = InventoryDisplay.DisplayMode.Buy;
-        }
-
+            if (!inventoryDisplay.gameObject.activeSelf)
+            {
+                inventoryDisplay.gameObject.SetActive(true);
+                inventoryDisplay.displayMode = InventoryDisplay.DisplayMode.Sell;
+            }
+            if (!shopInventoryDisplay.gameObject.activeSelf)
+            {
+                shopInventoryDisplay.gameObject.SetActive(true);
+                shopInventoryDisplay.displayMode = InventoryDisplay.DisplayMode.Buy;
+            }
+        });
     }
 }

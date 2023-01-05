@@ -36,11 +36,20 @@ public class InventoryItemDisplay : MonoBehaviour
         this.inventoryDisplay.AddInventoryAdditionListener(HandleInventoryAdd);
 
         this.inventoryDisplay.AddInventorySubtractionListener(HandleInventorySubtract);
+
+        buyButton.onClick.AddListener(() =>
+        {
+            Shop.Instance.BuyItem(this.item, 1);
+        });
+
+        sellButton.onClick.AddListener(() =>
+        {
+            Shop.Instance.SellItem(this.item, 1);
+        });
     }
 
     public void SetDisplayMode(InventoryDisplay.DisplayMode mode)
     {
-        Debug.Log(mode);
         switch (mode)
         {
             case InventoryDisplay.DisplayMode.Inventory:
