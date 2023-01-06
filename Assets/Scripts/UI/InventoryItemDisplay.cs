@@ -46,6 +46,11 @@ public class InventoryItemDisplay : MonoBehaviour
         {
             Shop.Instance.SellItem(this.item, 1);
         });
+
+        equipButton.onClick.AddListener(() =>
+        {
+            inventoryDisplay.EquipItem((Equipment)this.item);
+        });
     }
 
     public void SetDisplayMode(InventoryDisplay.DisplayMode mode)

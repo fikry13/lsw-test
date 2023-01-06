@@ -5,23 +5,46 @@ using UnityEngine;
 public class CharacterDisplay : MonoBehaviour
 {
     [SerializeField]
+    private PlayerMovement _playerMovement;
+    [SerializeField]
+    private PlayerEquipment _playerEquipment;
+    [SerializeField]
     private float _animationSpeed;
     [SerializeField]
     private Equipment _baseBody;
     [SerializeField]
-    private PlayerMovement _playerMovement;
-    [SerializeField]
     private SpriteRenderer _baseRenderer;
+    [SerializeField]
+    private Outfit _outfit;
     [SerializeField]
     private SpriteRenderer _outfitRenderer;
     [SerializeField]
-    private Outfit _outfit;
+    private Hairstyle _hairstyle;
+    [SerializeField]
+    private SpriteRenderer _hairstyleRenderer;
+    [SerializeField]
+    private Accessory _accessory;
+    [SerializeField]
+    private SpriteRenderer _accessoryRenderer;
 
     private Face _characterFacing = Face.South;
 
     float _timer;
     int _frameIndex;
     bool idle = true;
+
+    private void Start()
+    {
+        _playerEquipment.onEquipmentChange += (hairstyle, outfit, accessory) =>
+        {
+            if(hairstyle != null)
+                _hairstyle = hairstyle;
+            if(outfit!= null)
+                _outfit = outfit;
+            if(accessory!= null)
+                _accessory = accessory;
+        };
+    }
 
     private void Update()
     {
@@ -43,8 +66,11 @@ public class CharacterDisplay : MonoBehaviour
             {
                 _frameIndex = 0;
             }
+
             _baseRenderer.sprite = GetNextFrame(_baseBody.sprites, index);
             _outfitRenderer.sprite = GetNextFrame(_outfit.sprites, index);
+            _hairstyleRenderer.sprite = GetNextFrame(_hairstyle.sprites, index);
+            _accessoryRenderer.sprite = GetNextFrame(_accessory.sprites, index);
         }
 
     }
@@ -89,8 +115,6 @@ public class CharacterDisplay : MonoBehaviour
             }
         }
     }
-
-
 
     int[,] spriteIndex = new int[8,6]
     {

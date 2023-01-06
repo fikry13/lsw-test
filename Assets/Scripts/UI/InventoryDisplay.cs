@@ -14,6 +14,12 @@ public class InventoryDisplay : MonoBehaviour
     private Inventory inventory;
 
     [SerializeField]
+    private PlayerEquipment equipment;
+
+    [SerializeField]
+    private EquipmentDisplay equipmentDisplay;
+
+    [SerializeField]
     private RectTransform itemDisplayParent;
 
     [SerializeField]
@@ -67,6 +73,14 @@ public class InventoryDisplay : MonoBehaviour
             }
         };
 
+        if(equipment != null)
+        {
+            equipment.onEquipmentChange += (hairstyle, outfit, accessory) =>
+            {
+                equipmentDisplay?.UpdateSprite(hairstyle, outfit, accessory);
+            };
+        }
+
         InitInventoryDisplay();
     }
 
@@ -100,6 +114,11 @@ public class InventoryDisplay : MonoBehaviour
         InventoryItemDisplay newItemDisplay = Instantiate(inventoryItemDisplayPrefab, itemDisplayParent).GetComponent<InventoryItemDisplay>();
         newItemDisplay.InitDisplay(itemSlot.item, itemSlot.amount, this);
         itemDisplays.Add(newItemDisplay);
+    }
+
+    public void EquipItem(Equipment item)
+    {
+        equipment.Equip(item);
     }
 
     public void RemoveDisplay(InventoryItemDisplay inventoryItemDisplay)
