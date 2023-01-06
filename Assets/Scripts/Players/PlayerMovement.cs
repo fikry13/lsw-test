@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public bool canMove;
 
-    Rigidbody2D rigidbody2d;
+    public Rigidbody2D rigidbody2d;
 
     private void Awake()
     {
@@ -18,8 +18,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove)
         {
-            var velocityX = Input.GetAxis("Horizontal") * speed;
-            var velocityY = Input.GetAxis("Vertical") * speed;
+            var velocityX = Input.GetAxisRaw("Horizontal") * speed;
+            var velocityY = Input.GetAxisRaw("Vertical") * speed;
 
             rigidbody2d.velocity = new Vector2(velocityX, velocityY);
         }
