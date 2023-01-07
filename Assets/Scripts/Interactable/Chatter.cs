@@ -13,7 +13,6 @@ public class Chatter : Interactable
     public override void Interact()
     {
         base.Interact();
-        Debug.LogWarning("HAHA");
 
         DisplayDialog();
     }
@@ -29,7 +28,6 @@ public class Chatter : Interactable
             {
                 dialogIndex = -1;
                 DialogManager.Instance.HideDialog();
-                Debug.Log(onDialogDone == null);
                 onDialogDone?.Invoke();
             }
         });
